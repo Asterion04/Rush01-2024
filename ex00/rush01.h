@@ -36,8 +36,6 @@ bool	try_solving(const char *str);
 void	remove_grid(int **grid);
 int		**create_grid(int row_size, int col_size);
 
-void	copy_grid(int **grid_dest, int **grid_src);
-
-int	**backtrack_solve(int **grid, const char *str);
+bool	backtrack_solve(int **grid, const char *str, int row, int col);
 
 #endif // RUSH01_H

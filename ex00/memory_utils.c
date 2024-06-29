@@ -46,21 +46,3 @@ void	remove_grid(int **grid)
 	}
 	free(grid);
 }
-
-void	copy_grid(int **grid_dest, int **grid_src)
-{
-	int	x;
-	int	y;
-
-	x = 0;
-	while (x < ROW_SIZE)
-	{
-		y = 0;
-		while (y < COL_SIZE)
-		{
-			grid_dest[x][y] = grid_src[x][y];
-			y++;
-		}
-		x++;
-	}
-}

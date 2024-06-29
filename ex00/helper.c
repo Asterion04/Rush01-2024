@@ -26,8 +26,9 @@ size_t	ft_strlen(const char *str)
 
 void	print_grid(int **grid)
 {
-	int	x;
-	int	y;
+	int		x;
+	int		y;
+	char	c;
 
 	x = 0;
 	while (x < ROW_SIZE)
@@ -35,10 +36,12 @@ void	print_grid(int **grid)
 		y = 0;
 		while (y < COL_SIZE)
 		{
-			printf("%d ", grid[x][y]);
+			c = grid[x][y] + '0';
+			write(1, &c, 1);
+			write(1, " ", 1);
 			y++;
 		}
-		printf("\n");
+		write(1, "\n", 1);
 		x++;
 	}
 }
@@ -73,7 +76,7 @@ bool	is_safe(int **grid, int row, int col, int value)
 	}
 	x = row;
 	y = col;
-	while (y < ROW_SIZE)
+	while (y < COL_SIZE)
 	{
 		if (grid[x][y] == value)
 			return (false);

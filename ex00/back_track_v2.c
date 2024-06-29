@@ -12,7 +12,6 @@
 
 #include "rush01.h"
 
-
 bool	check_visibility_bottom(int **grid, const char *str, int start)
 {
 	int	x;
@@ -44,7 +43,6 @@ bool	check_visibility_bottom(int **grid, const char *str, int start)
 	return (true);
 }
 
-
 bool	check_visibility_left(int **grid, const char *str, int start)
 {
 	int	x;
@@ -75,7 +73,6 @@ bool	check_visibility_left(int **grid, const char *str, int start)
 	}
 	return (true);
 }
-
 
 bool	check_visibility_right(int **grid, const char *str, int start)
 {
@@ -132,7 +129,6 @@ bool	check_visibility_top(int **grid, const char *str, int start)
 		}
 		if (str[start + x] == ' ')
 			start++;
-
 		if (str[start + x] - '0' != count)
 			return (false);
 		x++;
@@ -159,7 +155,6 @@ bool	is_correct(int **grid, const char *str)
 		}
 		x++;
 	}
-	(void)str;
 	if (!check_visibility_top(grid, str, 0) || \
 		!check_visibility_bottom(grid, str, 8) || \
 		!check_visibility_left(grid, str, 16) || \
@@ -168,39 +163,29 @@ bool	is_correct(int **grid, const char *str)
 	return (true);
 }
 
-int	**backtrack_solve(int **grid, const char *str)
+bool	backtrack_solve(int **grid, const char *str, int row, int col)
 {
-	int	**result;
-	int	**state;
-	int	x;
-	int	y;
 	int	value;
 
-	if (is_correct(grid, str))
-		return (grid);
-	x = 0;
-	while (x < ROW_SIZE)
+	if (row == ROW_SIZE)
 	{
-		y = 0;
-		while (y < COL_SIZE)
-		{
-			value = 1;
-			while (value <= 4)
-			{
-				if (grid[x][y] == 0 && is_safe(grid, x, y, value))
-				{
-					grid[x][y] = value;
-					result = backtrack_solve(grid, str);
-					if (result != NULL)
-						return (result);
-					grid[x][y] = 0;
-				}
-				value++;
-
-			}
-			y++;
-		}
-		x++;
+		row = 0;
+		if (++col == COL_SIZE)
+			return (is_correct(grid, str));
 	}
-	return (NULL);
+	if (grid[row][col] != 0)
+		return (backtrack_solve(grid, str, row + 1, col));
+	value = 1;
+	while (value <= 4)
+	{
+		if (grid[row][col] == 0 && is_safe(grid, row, col, value))
+		{
+			grid[row][col] = value;
+			if (backtrack_solve(grid, str, row + 1, col))
+				return (true);
+			grid[row][col] = 0;
+		}
+		value++;
+	}
+	return (false);
 }
