@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rules.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iavautra <iavautra@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: iavautra <iavautra@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 06:44:05 by iavautra          #+#    #+#             */
-/*   Updated: 2024/06/29 08:55:23 by iavautra         ###   ########.fr       */
+/*   Updated: 2024/06/29 17:07:19 by iavautra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
