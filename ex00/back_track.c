@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   back_track_v2.c                                    :+:      :+:    :+:   */
+/*   back_track.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iavautra <iavautra@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: iavautra <iavautra@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:13:07 by iavautra          #+#    #+#             */
-/*   Updated: 2024/06/30 14:21:44 by iavautra         ###   ########.fr       */
+/*   Updated: 2024/06/30 14:43:59 by iavautra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,14 @@ bool	check_visibility(int *line, int size, int clue)
 	return (visible_count == clue);
 }
 
-bool is_valid(int **grid, const char *clues, int row, int col, int height)
+bool	is_valid(int **grid, const char *clues, int *rowcol, int height)
 {
 	int	clue_array[ROW_SIZE * COL_SIZE];
+	int	row;
+	int	col;
 
+	row = rowcol[0];
+	col = rowcol[1];
 	parse_clues(clues, clue_array);
 	grid[row][col] = height;
 	if (!rules_check_duplicates(grid, row, col, height))
@@ -85,7 +89,7 @@ bool	backtrack_solve(int **grid, const char *str, int row, int col)
 	value = 1;
 	while (value <= 4)
 	{
-		if (is_valid(grid, str, row, col, value))
+		if (is_valid(grid, str, (int []){row, col}, value))
 		{
 			grid[row][col] = value;
 			if (backtrack_solve(grid, str, row, col + 1))

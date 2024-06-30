@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rules.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iavautra <iavautra@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: iavautra <iavautra@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 06:44:05 by iavautra          #+#    #+#             */
-/*   Updated: 2024/06/30 14:20:43 by iavautra         ###   ########.fr       */
+/*   Updated: 2024/06/30 14:30:48 by iavautra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ bool	rules_check_row_clues(int **grid, int row, int col, int *clue_array)
 	return (true);
 }
 
-
 bool	rules_check_col_clues(int **grid, int row, int col, int *clue_array)
 {
 	int	up_clue;
@@ -102,4 +101,3 @@ bool	rules_check_col_clues(int **grid, int row, int col, int *clue_array)
 	}
 	return (true);
 }
-
