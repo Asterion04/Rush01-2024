@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rush01.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iavautra <iavautra@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: iavautra <iavautra@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 06:44:52 by iavautra          #+#    #+#             */
-/*   Updated: 2024/06/29 15:06:29 by iavautra         ###   ########.fr       */
+/*   Updated: 2024/06/30 14:19:02 by iavautra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@ size_t	ft_strlen(const char *str);
 bool	is_safe(int **grid, int row, int col, int value);
 
 bool	rules_check_format(const char *str);
+bool	rules_check_row_clues(int **grid, int row, int col, int *clue_array);
+bool	rules_check_col_clues(int **grid, int row, int col, int *clue_array);
+bool	rules_check_duplicates(int **grid, int row, int col, int height);
+
+bool	check_visibility(int *line, int size, int clue);
 
 void	print_grid(int **grid);
 int		print_error(void);

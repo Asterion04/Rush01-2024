@@ -3,163 +3,72 @@
 /*                                                        :::      ::::::::   */
 /*   back_track_v2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iavautra <iavautra@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: iavautra <iavautra@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:13:07 by iavautra          #+#    #+#             */
-/*   Updated: 2024/06/29 18:36:00 by iavautra         ###   ########.fr       */
+/*   Updated: 2024/06/30 14:21:44 by iavautra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rush01.h"
 
-bool	check_visibility_bottom(int **grid, const char *str, int start)
+void	parse_clues(const char *clues, int *clue_array)
 {
-	int	x;
-	int	y;
-	int	count;
-	int	max_height;
+	int	i;
 
-	x = 0;
-	while (x < ROW_SIZE)
+	i = 0;
+	while (i < ROW_SIZE * COL_SIZE)
 	{
-		y = COL_SIZE - 1;
-		max_height = 0;
-		count = 0;
-		while (y >= 0)
-		{
-			if (grid[x][y] > max_height)
-			{
-				max_height = grid[x][y];
-				count++;
-			}
-			y--;
-		}
-		if (str[start + x] == ' ')
-			start++;
-		if (str[start + x] - '0' != count)
-			return (false);
-		x++;
+		if (*clues == ' ')
+			clues++;
+		clue_array[i] = *clues - '0';
+		clues++;
+		i++;
 	}
-	return (true);
 }
 
-bool	check_visibility_left(int **grid, const char *str, int start)
+bool	check_visibility(int *line, int size, int clue)
 {
-	int	x;
-	int	y;
-	int	count;
 	int	max_height;
+	int	visible_count;
+	int	i;
 
-	y = 0;
-	while (y < COL_SIZE)
+	visible_count = 0;
+	max_height = 0;
+	i = 0;
+	while (i < size)
 	{
-		x = 0;
-		max_height = 0;
-		count = 0;
-		while (x < ROW_SIZE)
+		if (line[i] > max_height)
 		{
-			if (grid[x][y] > max_height)
-			{
-				max_height = grid[x][y];
-				count++;
-			}
-			x++;
+			max_height = line[i];
+			visible_count++;
 		}
-		if (str[start + y] == ' ')
-			start++;
-		if (str[start + y] - '0' != count)
-			return (false);
-		y++;
+		i++;
 	}
-	return (true);
+	return (visible_count == clue);
 }
 
-bool	check_visibility_right(int **grid, const char *str, int start)
+bool is_valid(int **grid, const char *clues, int row, int col, int height)
 {
-	int	x;
-	int	y;
-	int	count;
-	int	max_height;
+	int	clue_array[ROW_SIZE * COL_SIZE];
 
-	y = 0;
-	while (y < COL_SIZE)
+	parse_clues(clues, clue_array);
+	grid[row][col] = height;
+	if (!rules_check_duplicates(grid, row, col, height))
 	{
-		x = ROW_SIZE - 1;
-		max_height = 0;
-		count = 0;
-		while (x >= 0)
-		{
-			if (grid[x][y] > max_height)
-			{
-				max_height = grid[x][y];
-				count++;
-			}
-			x--;
-		}
-		if (str[start + y] == ' ')
-			start++;
-		if (str[start + y] - '0' != count)
-			return (false);
-		y++;
-	}
-	return (true);
-}
-
-bool	check_visibility_top(int **grid, const char *str, int start)
-{
-	int	x;
-	int	y;
-	int	count;
-	int	max_height;
-
-	x = 0;
-	while (x < ROW_SIZE)
-	{
-		y = 0;
-		max_height = 0;
-		count = 0;
-		while (y < COL_SIZE)
-		{
-			if (grid[x][y] > max_height)
-			{
-				max_height = grid[x][y];
-				count++;
-			}
-			y++;
-		}
-		if (str[start + x] == ' ')
-			start++;
-		if (str[start + x] - '0' != count)
-			return (false);
-		x++;
-	}
-	return (true);
-}
-
-bool	is_correct(int **grid, const char *str)
-{
-	int	x;
-	int	y;
-
-	if (grid == NULL)
+		grid[row][col] = 0;
 		return (false);
-	x = 0;
-	while (x < ROW_SIZE)
-	{
-		y = 0;
-		while (y < COL_SIZE)
-		{
-			if (grid[x][y] == 0)
-				return (false);
-			y++;
-		}
-		x++;
 	}
-	if (!check_visibility_top(grid, str, 0) || \
-		!check_visibility_bottom(grid, str, 8) || \
-		!check_visibility_left(grid, str, 16) || \
-		!check_visibility_right(grid, str, 24))
+	if (!rules_check_row_clues(grid, row, col, clue_array))
+	{
+		grid[row][col] = 0;
 		return (false);
+	}
+	if (!rules_check_col_clues(grid, row, col, clue_array))
+	{
+		grid[row][col] = 0;
+		return (false);
+	}
 	return (true);
 }
 
@@ -168,20 +77,18 @@ bool	backtrack_solve(int **grid, const char *str, int row, int col)
 	int	value;
 
 	if (row == ROW_SIZE)
-	{
-		row = 0;
-		if (++col == COL_SIZE)
-			return (is_correct(grid, str));
-	}
+		return (true);
+	if (col == COL_SIZE)
+		return (backtrack_solve(grid, str, row + 1, 0));
 	if (grid[row][col] != 0)
-		return (backtrack_solve(grid, str, row + 1, col));
+		return (backtrack_solve(grid, str, row, col + 1));
 	value = 1;
 	while (value <= 4)
 	{
-		if (grid[row][col] == 0 && is_safe(grid, row, col, value))
+		if (is_valid(grid, str, row, col, value))
 		{
 			grid[row][col] = value;
-			if (backtrack_solve(grid, str, row + 1, col))
+			if (backtrack_solve(grid, str, row, col + 1))
 				return (true);
 			grid[row][col] = 0;
 		}
