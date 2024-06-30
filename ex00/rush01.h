@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rush01.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iavautra <iavautra@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: iavautra <iavautra@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 06:44:52 by iavautra          #+#    #+#             */
-/*   Updated: 2024/06/30 14:19:02 by iavautra         ###   ########.fr       */
+/*   Updated: 2024/06/30 14:48:46 by iavautra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <stdbool.h>
 # include <stdlib.h>
-# include <stdio.h>
 # include <unistd.h>
 
 # define ROW_SIZE	4
